@@ -2,9 +2,11 @@ package compropagosdk;
 
 import compropagosdk.Factory.Abs.CpOrderInfo;
 import compropagosdk.Factory.Abs.NewOrderInfo;
+import compropagosdk.Factory.Abs.SmsInfo;
 import compropagosdk.Factory.Factory;
 import compropagosdk.Models.PlaceOrderInfo;
 import compropagosdk.Models.Provider;
+import compropagosdk.Models.Webhook;
 import compropagosdk.Tools.Validations;
 
 import java.io.BufferedReader;
@@ -303,9 +305,51 @@ public class Service {
         os.write(append.getBytes());
         os.flush();
         
-        /*if (con.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-            throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
-        }*/
+        InputStream is = con.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        StringBuilder res = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null){
+            res.append(line);
+            res.append('\r');
+        }
+
+        reader.close();
+        
+        return Factory.newOrderInfo(res.toString());
+    }
+    
+    
+    /**
+     * 
+     * @param number
+     * @param orderId
+     * @return
+     * @throws Exception 
+     */
+    public SmsInfo sendSmsInstructions(String number, String orderId) throws Exception{
+        Validations.validateGateway(client);
+        
+        String append = "customer_phone=" + number;
+        
+        String uri = client.getUri() + "charges/"+orderId+"/sms";
+        
+        URL finalUri = new URL(uri);
+        HttpURLConnection con = (HttpURLConnection) finalUri.openConnection();
+        con.setUseCaches(false);
+        con.setDoOutput(true);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        
+        Base64.Encoder encoder = Base64.getEncoder();
+        String authToken = encoder.encodeToString(client.getFullAuth().getBytes(StandardCharsets.UTF_8));
+
+        con.setRequestProperty("Authorization", "Basic " + authToken);
+        
+        OutputStream os = con.getOutputStream();
+        os.write(append.getBytes());
+        os.flush();
         
         InputStream is = con.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -319,9 +363,169 @@ public class Service {
 
         reader.close();
         
-        System.out.println(res.toString());
+        return Factory.smsInfo(res.toString());
+    }
+    
+    /**
+     * 
+     * @param url
+     * @return
+     * @throws Exception 
+     */
+    public Webhook createWebhook(String url) throws Exception{
+        Validations.validateGateway(client);
         
-        return Factory.newOrderInfo(res.toString());
+        String append = "url="+url;
+        
+        String uri = client.getUri() + "webhooks/stores";
+        
+        URL finalUri = new URL(uri);
+        HttpURLConnection con = (HttpURLConnection) finalUri.openConnection();
+        con.setUseCaches(false);
+        con.setDoOutput(true);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        
+        Base64.Encoder encoder = Base64.getEncoder();
+        String authToken = encoder.encodeToString(client.getFullAuth().getBytes(StandardCharsets.UTF_8));
+
+        con.setRequestProperty("Authorization", "Basic " + authToken);
+        
+        OutputStream os = con.getOutputStream();
+        os.write(append.getBytes());
+        os.flush();
+        
+        InputStream is = con.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        StringBuilder res = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null){
+            res.append(line);
+            res.append('\r');
+        }
+
+        reader.close();
+        
+        return Factory.webhook(res.toString());
+    }
+    
+    
+    /**
+     * 
+     * @param webhookId
+     * @param url
+     * @return
+     * @throws Exception 
+     */
+    public Webhook updateWebhook(String webhookId, String url) throws Exception{
+        Validations.validateGateway(client);
+        
+        String append = "url="+url;
+        
+        String uri = client.getUri() + "webhooks/stores/"+webhookId;
+        
+        URL finalUri = new URL(uri);
+        HttpURLConnection con = (HttpURLConnection) finalUri.openConnection();
+        con.setUseCaches(false);
+        con.setDoOutput(true);
+        con.setRequestMethod("PUT");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        
+        Base64.Encoder encoder = Base64.getEncoder();
+        String authToken = encoder.encodeToString(client.getFullAuth().getBytes(StandardCharsets.UTF_8));
+
+        con.setRequestProperty("Authorization", "Basic " + authToken);
+        
+        OutputStream os = con.getOutputStream();
+        os.write(append.getBytes());
+        os.flush();
+        
+        InputStream is = con.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        StringBuilder res = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null){
+            res.append(line);
+            res.append('\r');
+        }
+
+        reader.close();
+        
+        return Factory.webhook(res.toString());
+    }
+    
+    
+    /**
+     * 
+     * @param webhookId
+     * @return
+     * @throws Exception 
+     */
+    public Webhook deleteWebhook(String webhookId) throws Exception{
+        Validations.validateGateway(client);
+        
+        String uri = client.getUri() + "webhooks/stores/"+webhookId;
+        
+        URL finalUri = new URL(uri);
+        HttpURLConnection con = (HttpURLConnection) finalUri.openConnection();
+        con.setUseCaches(false);
+        con.setDoOutput(true);
+        con.setRequestMethod("DELETE");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        
+        Base64.Encoder encoder = Base64.getEncoder();
+        String authToken = encoder.encodeToString(client.getFullAuth().getBytes(StandardCharsets.UTF_8));
+
+        con.setRequestProperty("Authorization", "Basic " + authToken);
+        
+        InputStream is = con.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        StringBuilder res = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null){
+            res.append(line);
+            res.append('\r');
+        }
+
+        reader.close();
+        
+        return Factory.webhook(res.toString());
+    }
+    
+    
+    public ArrayList<Webhook> listWebhooks() throws Exception{
+        Validations.validateGateway(client);
+        
+        String uri = client.getUri() + "webhooks/stores";
+        
+        URL finalUri = new URL(uri);
+        HttpURLConnection con = (HttpURLConnection) finalUri.openConnection();
+        con.setUseCaches(false);
+        con.setDoOutput(true);
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        
+        Base64.Encoder encoder = Base64.getEncoder();
+        String authToken = encoder.encodeToString(client.getFullAuth().getBytes(StandardCharsets.UTF_8));
+
+        con.setRequestProperty("Authorization", "Basic " + authToken);
+        
+        InputStream is = con.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        StringBuilder res = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null){
+            res.append(line);
+            res.append('\r');
+        }
+
+        reader.close();
+        
+        return Factory.listWebhooks(res.toString());
     }
 
 }

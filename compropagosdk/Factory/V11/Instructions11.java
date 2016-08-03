@@ -9,9 +9,9 @@ import compropagosdk.Factory.Abs.Instructions;
 public class Instructions11 extends Instructions {
 
     public String description;
-    public String step1;
-    public String step2;
-    public String step3;
+    public String step_1;
+    public String step_2;
+    public String step_3;
     public String note_extra_comition;
     public String note_expiration_date;
     public String note_confirmation;
@@ -24,17 +24,17 @@ public class Instructions11 extends Instructions {
 
     @Override
     public String getStep1() {
-        return step1;
+        return step_1;
     }
 
     @Override
     public String getStep2() {
-        return step2;
+        return step_2;
     }
 
     @Override
     public String getStep3() {
-        return step3;
+        return step_3;
     }
 
     @Override
