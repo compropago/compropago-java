@@ -346,4 +346,4 @@ ArrayList<Webhook> list = client.api.listWebhooks();
 public ArrayList<Webhook> listWebhooks() throws Exception;
 ```
 
-[latest-jar]: https://github.com/compropago/compropago-juva/
+[latest-jar]: https://github.com/compropago/compropago-java/releases/download/1.0.0/CompropagoSdk.jar
