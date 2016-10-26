@@ -209,8 +209,8 @@ ArrayList<Provider> providers = client.api.listProviders();
 ```java
 /**
  * @param boolean auth    Forzar autenticación
- * @param float   limit   Filtro por limete de transaccion de proveedor
- * @param boolean fetch   Forzar busqueda en base de datos
+ * @param float   limit   Filtro por límite de transaccion de proveedor
+ * @param boolean fetch   Forzar búsqueda en base de datos
  * @return
  * @throws Exception
  */
