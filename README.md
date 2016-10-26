@@ -38,7 +38,7 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
 ### Instalación via .jar
 
 Puedes descargar la última versión estable de el archivo .jar del SDK directamente desde el listado de versiones del repositorio o desde este [enlace][latest-jar].
-Posteriormente deberás incluirlo en su proyecto.
+Posteriormente deberás incluirlo en tu proyecto.
 
 ### Instalación por GitHub
 
@@ -46,7 +46,7 @@ Puedes descargar alguna de las versiones publicadas:
 
 - [Consultar Versiones Publicadas en GitHub](https://github.com/compropago/compropago-java/releases)
 
-O si o lo desea puede obtener el repositorio
+O si o lo deseas puedes obtener el repositorio
 
 ```bash
 #repositorio en su estado actual (*puede no ser versión estable*)
@@ -77,7 +77,9 @@ Información de Horarios y Comisiones, como Transferir tu dinero y la Seguridad 
 
 ## Guía básica de Uso
 
-Se necesita una cuenta activa de ComproPago. [Registrarse en ComproPago](https://compropago.com)
+Se necesita una cuenta activa de ComproPago.
+
+[Registrarse en ComproPago](https://compropago.com)
 
 ### General
 
@@ -89,10 +91,10 @@ import compropagosdk.*
 
 ### Configuración del Cliente
 
-Para poder hacer uso del paquete y llamados al API es necesario que primero configure sus Llaves de conexión y crear un instancia de Client.
-*Sus llaves las encontrara en su Panel de ComproPago en el menú Configuración.*
+Para poder hacer uso del paquete y llamados al API es necesario que primero configures tus Llaves de conexión y crees un instancia de Client.
+*Sus llaves las encontraras en el Panel de ComproPago en el menú Configuración.*
 
-[Consulte Aquí sus Llaves](https://compropago.com/panel/configuracion)
+[Consulta Aquí tus Llaves](https://compropago.com/panel/configuracion)
 
 ```java
 /**
