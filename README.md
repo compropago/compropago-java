@@ -6,7 +6,7 @@ La librería de `ComproPago Java SDK` te permite interactuar con el API de Compr
 También cuenta con los métodos necesarios para facilitar el desarrollo por medio de los servicios
 más utilizados (SDK).
 
-Con ComproPago puedes recibir pagos en OXXO, 7Eleven más tiendas en todo México.
+Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo México.
 
 [Registrarse en ComproPago](https://compropago.com)
 
