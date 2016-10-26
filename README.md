@@ -198,7 +198,7 @@ public CpOrderInfo verifyOrder(String orderId) throws Exception ;
 
 ##### Obtener el listado de las tiendas donde se puede realizar el Pago
 
-Para obtener el listado de Proveedores disponibles para realizar el pago de las órdenes es necesario consutar el método **listProviders** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **ArrayList** la cual contendrá objetos de tipo **Provider**
+Para obtener el listado de Proveedores disponibles para realizar el pago de las órdenes es necesario consultar el método **listProviders** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **ArrayList** la cual contendrá objetos de tipo **Provider**
 
 ```java
 ArrayList<Provider> providers = client.api.listProviders();
@@ -208,7 +208,7 @@ ArrayList<Provider> providers = client.api.listProviders();
 
 ```java
 /**
- * @param boolean auth    Forzar autentificación
+ * @param boolean auth    Forzar autenticación
  * @param float   limit   Filtro por limete de transaccion de proveedor
  * @param boolean fetch   Forzar busqueda en base de datos
  * @return
