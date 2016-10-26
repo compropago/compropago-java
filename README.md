@@ -12,12 +12,12 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
 
 ## Índice de Contenidos
 
-- [Ayuda y Soporte de ComproPago](#ayuda-y-soporte-de-compropago)
+- [Ayuda y soporte de ComproPago](#ayuda-y-soporte-de-compropago)
 - [Requerimientos](#requerimientos)
 - [Instalación ComproPago SDK](#instalación-compropago-sdk)
 - [Documentación](#documentación)
-- [Guía básica de Uso](#guía-básica-de-uso)
-- [Guía de Versiones](#guía-de-versiones)
+- [Guía básica de uso](#guía-básica-de-uso)
+- [Guía de versiones](#guía-de-versiones)
 
 
 ## Ayuda y Soporte de ComproPago
