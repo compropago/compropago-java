@@ -2,7 +2,7 @@
 
 ## Descripción
 
-La librería de `ComproPago Java SDK` le permite interactuar con el API de ComproPago desde tu aplicación.
+La librería de `ComproPago Java SDK` te permite interactuar con el API de ComproPago desde tu aplicación.
 También cuenta con los métodos necesarios para facilitar el desarrollo por medio de los servicios
 más utilizados (SDK).
 
