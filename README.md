@@ -1,4 +1,4 @@
-# ComproPago Java SDK v1.0.0
+# ComproPago Java SDK
 
 ## Descripción
 
@@ -30,15 +30,16 @@ Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo Méx
 ## Requerimientos
 
 * Java 1.8.x
-* [Google Gson 2.7](https://github.com/google/gson)
+* [Google Gson](https://github.com/google/gson)
 
 
 ## Instalación ComproPago Java SDK
 
 ### Instalación via .jar
 
-Puedes descargar la última versión estable de el archivo .jar del SDK directamente desde el listado de versiones del repositorio o desde este [enlace][latest-jar].
-Posteriormente deberás incluirlo en tu proyecto.
+Puedes descargar la última versión estable de el archivo .jar del SDK directamente desde el listado de versiones del 
+repositorio o desde este [enlace](https://github.com/compropago/compropago-java/releases). Posteriormente deberás 
+incluirlo en tu proyecto.
 
 ### Instalación por GitHub
 
@@ -64,7 +65,7 @@ ComproPago te ofrece una API tipo REST para integrar pagos en efectivo en tu com
 
 **[General](https://compropago.com/documentacion)**
 
-Información de Horarios y Comisiones, como Transferir tu dinero y la Seguridad que proporciona ComproPAgo
+Información de Horarios y Comisiones, como Transferir tu dinero y la Seguridad que proporciona ComproPago.
 
 
 **[Herramientas](https://compropago.com/documentacion/boton-pago)**
@@ -83,16 +84,18 @@ Se necesita una cuenta activa de ComproPago.
 
 ### General
 
-Para poder hacer uso de la librería es necesario incluir las clases del archivo .jar
+Para poder hacer uso de la librería es necesario incluir las clases del archivo **.jar**
 
 ```java
-import compropagosdk.*
+import compropagosdk.Client;
+import compropagosdk.factory.Factory;
+import compropagosdk.factory.models.*;
 ```
 
 ### Configuración del Cliente
 
-Para poder hacer uso del paquete y llamados al API es necesario que primero configures tus Llaves de conexión y crees un instancia de Client.
-*Sus llaves las encontraras en el Panel de ComproPago en el menú Configuración.*
+Para poder hacer uso del paquete y llamados al API es necesario que primero configures tus Llaves de conexión y 
+crees un instancia de Client. *Sus llaves las encontraras en el Panel de ComproPago en el menú Configuración.*
 
 [Consulta Aquí tus Llaves](https://compropago.com/panel/configuracion)
 
@@ -101,59 +104,51 @@ Para poder hacer uso del paquete y llamados al API es necesario que primero conf
  * @param String publickey     Llave pública correspondiente al modo de la tienda
  * @param String privatekey    Llave privada correspondiente al modo de la tienda
  * @param boolean live         Modo de la tienda (false = Test | true = Live)
- * @param string contained     (optional) App User agent
  */
 Client client = new Client(
     "pk_test_5989d8209974e2d62",  // publickey
     "sk_test_6ff4e982253c44c42",  // privatekey
     false,                        // live
-    null                          // appname
 );
 ```
 
 ### Uso Básico del SDK
 
-> Consulta la documentación de la librería Java de ComproPago para conocer más de sus capacidades, configuraciones y métodos.
-
-
 #### Llamados al los servicios por SDK
 
-Para poder hacer uso de los servicos de ComproPago, solo debes llamar a los métodos contenidos en la propiedad **api** de la variable **client** como se muestra a continuación.
-
+Para poder hacer uso de los servicos de ComproPago, solo debes llamar a los métodos contenidos en la propiedad 
+**api** de la variable **client** como se muestra a continuación.
 
 #### Métodos base del SDK
 
 ##### Crear una nueva órden de Pago
 
-
 ```java
 /**
  * @param [String] order_id          Id de la orden
  * @param [String] order_name        Nombre del producto o productos de la órden
- * @param [Double]  order_price      Monto total de la orden
+ * @param [double] order_price       Monto total de la orden
  * @param [String] customer_name     Nombre completo del cliente
  * @param [String] customer_email    Correo electrónico del cliente
  * @param [String] payment_type      (default = OXXO) Valor del atributo internal_name" de un objeto "Provider"
- * @param [String] image_url         (optional) Url a la imágen del producto
+ * @param [String] currency          (default = MXN) tipo de moneda del campo order_price (MXN, USD, GBP, EUR)
+ * @param [String] expiration_time   (default = null) fecha de expiración de la orden en formato Epoch
  */
+// Información de la orden
+Map<String, String> order_info = new HashMap<String, String>();
+order_info.put("order_id", "123");
+order_info.put("order_name", "M4 SDK Java");
+order_info.put("order_price", "123.45");
+order_info.put("customer_name", "Eduardo Aguilar");
+order_info.put("customer_email", "eduardo.aguilar@compropago.com");
+order_info.put("payment_type", "OXXO");
+order_info.put("currency", "USD");
+order_info.put("expiration_time", "1484799158");
 
-PlaceOrderInfo order = new PlaceOrderInfo(
-    "123",                                // order_id
-    "M4 Style Ruby",                      // order_name
-    1000,                                 // order_price
-    "Eduardo Aguilar",                    // customer_name
-    "eduardo.aguilar@compropago.com",     // customer_email
-    "OXXO",                               // payment_type
-    null                                  // image_url
-)
-
+// Creación del objeto PlaceOrderInfo
+PlaceOrderInfo order = Factory.placeOrderInfo(order_info);
 
 // Llamada al método "place_order" del API para generar la órden
-
-/**
- * @param [PlaceOrderInfo] order
- * @return [NewOrderInfo]
- */
 NewOrderInfo neworder = client.api.placeOrder(order);
 ```
 
@@ -165,20 +160,22 @@ NewOrderInfo neworder = client.api.placeOrder(order);
  * @return
  * @throws Exception
  */
-public NewOrderInfo placeOrder(PlaceOrderInfo info) throws Exception;
+public NewOrderInfo placeOrder(PlaceOrderInfo info);
 ```
 
 ##### Verificar el Estatus de una orden
 
-Para verificar el estatus de una orden generada es necesario llamar al método **verifyOrder** que provee el atributo **api** del objeto **Client** y el cual regresa una instancia **CpOrderInfo**. Este método recibe como parámetro el ID generado por ComproPago para cada órden. También puede obtener este ID desde un objeto **NewOrderInfo** accediendo al método **getId**.
+Para verificar el estatus de una orden generada es necesario llamar al método **verifyOrder** que provee el atributo 
+**api** del objeto **Client** y el cual regresa una instancia **CpOrderInfo**. Este método recibe como parámetro el ID 
+generado por ComproPago para cada órden. También puede obtener este ID desde un objeto **NewOrderInfo** accediendo al 
+atributo **id**.
 
 ```java
 // Guardar el ID de la orden
 String order_id = "ch_xxxx_xxx_xxx_xxxx";
 
 // U obtenerlo de un objetdo NewOrderInfo
-String order_id = neworder.getId();
-
+String order_id = neworder.id;
 
 // Se manda llamar al metodo del API para recuperar la informacion de la orden
 CpOrderInfo info = client.api.verifyOrder(order_id);
@@ -188,49 +185,51 @@ CpOrderInfo info = client.api.verifyOrder(order_id);
 
 ```java
 /**
- * @param String orderId
+ * @param [String] orderId
  * @return
  * @throws Exception
  */
-public CpOrderInfo verifyOrder(String orderId) throws Exception ;
+public CpOrderInfo verifyOrder(String orderId);
 ```
 
 
 ##### Obtener el listado de las tiendas donde se puede realizar el Pago
 
-Para obtener el listado de Proveedores disponibles para realizar el pago de las órdenes es necesario consultar el método **listProviders** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **ArrayList** la cual contendrá objetos de tipo **Provider**
+Para obtener el listado de Proveedores disponibles para realizar el pago de las órdenes es necesario consultar el método
+**listProviders** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia 
+de tipo **ArrayList** la cual contendrá objetos de tipo **Provider**.
 
 ```java
-ArrayList<Provider> providers = client.api.listProviders();
+Provider[] providers = client.api.listProviders();
 ```
 
 ###### Prototipo del metodo listProviders()
 
 ```java
 /**
- * @param boolean auth    Forzar autenticación
- * @param float   limit   Filtro por límite de transaccion de proveedor
- * @param boolean fetch   Forzar búsqueda en base de datos
- * @return
+ * @param [boolean] auth    Forzar autenticación
+ * @param [double]  limit   Filtro por límite de transaccion de proveedor
+ * @param [boolean] fetch   Forzar búsqueda en base de datos
+ * @return [Provider[]]
  * @throws Exception
  */
 
 // Forma 1
-public ArrayList<Provider> listProviders(boolean auth, float limit, boolean fetch) throws Exception ;
+public Provider[] listProviders(double limit, String currency);
 
 // Forma 2
-public ArrayList<Provider> listProviders(boolean auth, float limit) throws Exception;
+public Provider[] listProviders(double limit);
 
 // Forma 3
-public ArrayList<Provider> listProviders(boolean auth) throws Exception;
+public Provider[] listProviders();
 
-// Forma 4
-public ArrayList<Provider> listProviders() throws Exception;
 ```
 
 ##### Envio de instrucciones SMS
 
-Para realizar el el envío de las instrucciones de compra vía SMS es necesario llamar al método **sendSmsInstructions** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **SmsInfo**
+Para realizar el el envío de las instrucciones de compra vía SMS es necesario llamar al método **sendSmsInstructions** 
+que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo 
+**SmsInfo**.
 
 ```java
 // Numero al cual se enviaran las instrucciones
@@ -247,22 +246,26 @@ SmsInfo smsinfo = client.api.sendSmsInstructions(phone_number , order_id);
 
 ```java
 /**
- * @param String number
- * @param String orderId
- * @return
+ * @param [String] number
+ * @param [String] orderId
+ * @return [SmsInfo]
  * @throws Exception
  */
-public SmsInfo sendSmsInstructions(String number, String orderId) throws Exception;
+public SmsInfo sendSmsInstructions(String number, String orderId);
 ```
 
 #### Webhooks
 
-Los webhooks son de suma importancia para el proceso las órdenes de ComproPago, ya que éstos se encargaran de recibir las notificaciones del cambio de estatus de las órdenes de compra generadas. También deberán contener parte de la lógica de aprobación en su tienda en línea.
+Los webhooks son de suma importancia para el proceso las órdenes de ComproPago, ya que éstos se encargaran de recibir 
+las notificaciones del cambio de estatus de las órdenes de compra generadas. También deberán contener parte de la 
+lógica de aprobación en su tienda en línea.
 
 El proceso que siguen es el siguiente:
 
-1. Cuando una orden cambia su estatus, nuestra plataforma le notificará a cada una de las rutas registradas, dicho cambio con la información de la órden modificada en formato JSON.
-2. Debera de recuperar este JSON en una cadena de texto para posterior mente convertirla a un objeto de tipo **CpOrderInfo** haciendo uso de la clase Factory que proporciona el SDK de la siguiente forma:
+1. Cuando una orden cambia su estatus, nuestra plataforma le notificará a cada una de las rutas registradas, dicho 
+cambio con la información de la órden modificada en formato JSON.
+2. Debera de recuperar este JSON en una cadena de texto para posterior mente convertirla a un objeto de tipo 
+**CpOrderInfo** haciendo uso de la clase Factory que proporciona el SDK de la siguiente forma:
 
 ```java
 // @param String cadenaObtenida
@@ -273,7 +276,8 @@ CpOrderInfo info = Factory.cpOrderInfo( cadenaObtenida );
 
 ##### Crear un nuevo Webhook
 
-Para crear un nuevo Webhook en la cuenta, se debe de llamar al método **createWebhook** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Webhook**
+Para crear un nuevo Webhook en la cuenta, se debe de llamar al método **createWebhook** que se encuentra alojado en el 
+atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Webhook**.
 
 ```java
 // Se pasa como paramtro la URL al webhook
@@ -284,69 +288,70 @@ Webhook webhook = client.api.createWebhook("http://sitio.com/webhook");
 
 ```java
 /**
- * @param String url
- * @return
+ * @param [String] url
+ * @return [Wenhook]
  * @throws Exception
  */
-public Webhook createWebhook(String url) throws Exception;
+public Webhook createWebhook(String url);
 ```
 
 ##### Actualizar un Webhook
 
-Para actualizar la url de un webhook, se debe de llamar al método **updateWebhook** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Webhook**
+Para actualizar la url de un webhook, se debe de llamar al método **updateWebhook** que se encuentra alojado en el 
+atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Webhook**.
 
 ```java
-Webhook updated_webhook = client.api.updateWebhook(webhook.getId(), "http://sitio.com/nuevo_webhook");
+Webhook updated_webhook = client.api.updateWebhook(webhook.id, "http://sitio.com/nuevo_webhook");
 ```
 
 ###### Prototipo del metodo updateWebhook()
 
 ```java
 /**
- * @param String webhookId
- * @param String url
- * @return
+ * @param [String] webhookId
+ * @param [String] url
+ * @return [Wenhook]
  * @throws Exception
  */
-public Webhook updateWebhook(String webhookId, String url) throws Exception;
+public Webhook updateWebhook(String webhookId, String url);
 ```
 
 ##### Eliminar un Webhook
 
-Para eliminar un webhook, se debe de llamar al método **deleteWebhook** que se encuentra alojado en el atributo **api** del objeto **Client**
-y el cual regresa una instancia de tipo **Webhook**
+Para eliminar un webhook, se debe de llamar al método **deleteWebhook** que se encuentra alojado en el atributo **api** 
+del objeto **Client** y el cual regresa una instancia de tipo **Webhook**.
 
 ```java
-Webhook deleted_webhook = client.api.deleteWebhook(webhook.getId());
+Webhook deleted_webhook = client.api.deleteWebhook(webhook.id);
 ```
 
 ###### Prototipo del metodo deleteWebhook()
 
 ```java
 /**
- * @param String webhookId
- * @return
+ * @param [String] webhookId
+ * @return [Wenhook]
  * @throws Exception
  */
-public Webhook deleteWebhook(String webhookId) throws Exception;
+public Webhook deleteWebhook(String webhookId);
 ```
 
 ##### Obtener listado de Webhooks registrados
 
-Para obtener la lista de webhooks registrados den una cuenta, se debe de llamar al método **listWebhook** que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Array** la cual contiene objetos de tipo **Webhook**
+Para obtener la lista de webhooks registrados den una cuenta, se debe de llamar al método **listWebhook** que se 
+encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Array** la 
+cual contiene objetos de tipo **Webhook**
 
 ```java
-ArrayList<Webhook> list = client.api.listWebhooks();
+webhook[] list = client.api.listWebhooks();
 ```
 
 ###### Prototipo del metodo listWebhook()
 
 ```java
 /**
- * @return
+ * @return [Webhook[]]
  * @throws Exception
  */
-public ArrayList<Webhook> listWebhooks() throws Exception;
+public Webhook[] listWebhooks();
 ```
-
-[latest-jar]: https://github.com/compropago/compropago-java/releases/download/1.0.0/CompropagoSdk.jar
