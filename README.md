@@ -6,7 +6,7 @@ La librería de `ComproPago Java SDK` te permite interactuar con el API de Compr
 También cuenta con los métodos necesarios para facilitar el desarrollo por medio de los servicios
 más utilizados (SDK).
 
-Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo México.
+Con ComproPago puedes recibir pagos en 7Eleven, Extra y más tiendas en todo México.
 
 [Registrarse en ComproPago](https://compropago.com)
 
@@ -130,7 +130,7 @@ Para poder hacer uso de los servicos de ComproPago, solo debes llamar a los mét
  * @param [double] order_price       Monto total de la orden
  * @param [String] customer_name     Nombre completo del cliente
  * @param [String] customer_email    Correo electrónico del cliente
- * @param [String] payment_type      (default = OXXO) Valor del atributo internal_name" de un objeto "Provider"
+ * @param [String] payment_type      (default = SEVEN_ELEVEN) Valor del atributo internal_name" de un objeto "Provider"
  * @param [String] currency          (default = MXN) tipo de moneda del campo order_price (MXN, USD, GBP, EUR)
  * @param [String] expiration_time   (default = null) fecha de expiración de la orden en formato Epoch
  */
@@ -141,7 +141,7 @@ order_info.put("order_name", "M4 SDK Java");
 order_info.put("order_price", "123.45");
 order_info.put("customer_name", "Eduardo Aguilar");
 order_info.put("customer_email", "eduardo.aguilar@compropago.com");
-order_info.put("payment_type", "OXXO");
+order_info.put("payment_type", "SEVEN_ELEVEN");
 order_info.put("currency", "USD");
 order_info.put("expiration_time", "1484799158");
 
