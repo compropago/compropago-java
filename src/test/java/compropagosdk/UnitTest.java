@@ -12,19 +12,20 @@ import java.util.Map;
 
 public class UnitTest extends TestCase {
 
-    protected String publicKey;
-    protected String privateKey;
-    protected boolean mode;
+    private String publicKey;
+    private String privateKey;
+    private boolean mode;
 
-    protected String number;
-    protected Map<String, String> order;
-    protected double limit;
-    protected String currency;
+    private String number;
+    private Map<String, String> order;
+    private double limit;
+    private String currency;
 
-    protected String webhook1;
-    protected String webhook2;
+    private String webhook1;
+    private String webhook2;
 
-    protected void setUp() {
+    @Override
+    protected void setUp() throws Exception {
         this.publicKey = "pk_test_638e8b14112423a086";
         this.privateKey = "sk_test_9c95e149614142822f";
         this.mode = false;
@@ -42,6 +43,8 @@ public class UnitTest extends TestCase {
         this.order.put("customer_name", "Eduardo Aguilar");
         this.order.put("customer_email", "eduardo.aguilar@compropago.com");
         this.order.put("payment_type", "OXXO");
+
+        super.setUp();
     }
 
     public void testCreateClient() {
@@ -90,7 +93,7 @@ public class UnitTest extends TestCase {
 
             Provider[] list = client.api.listProviders(this.limit);
 
-            for (int x = 0; x <= list.length; x++) {
+            for (int x = 0; x < list.length; x++) {
                 if (list[x].transaction_limit < this.limit) {
                     res = false;
                     break;
@@ -147,7 +150,7 @@ public class UnitTest extends TestCase {
             PlaceOrderInfo order = Factory.placeOrderInfo(this.order);
             NewOrderInfo newOrder = client.api.placeOrder(order);
 
-            res = !newOrder.id.equals("") && newOrder.exp_date.equals(String.valueOf(epoch));
+            res = !newOrder.id.equals("") && newOrder.expires_at == epoch;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -228,6 +231,23 @@ public class UnitTest extends TestCase {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Assert.assertTrue(res);
+    }
+
+    public void testDeactiveWebhook() {
+        boolean res = false;
+        try {
+            Client client = new Client(this.publicKey, this.privateKey, this.mode);
+
+            String webhook_id = "8b1f9725-54c5-4733-994b-b1e0f9c50baa";
+
+            Webhook webhook = client.api.deactiveWebhook(webhook_id);
+
+            res = webhook.status.equals("deactivated");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Assert.assertTrue(res);
     }
 
