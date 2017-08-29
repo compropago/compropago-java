@@ -3,7 +3,7 @@ package compropagosdk;
 
 public class Client {
 
-    public static String VERSION = "2.0.0";
+    public static String VERSION = "3.0.0.0";
 
     private static String API_LIVE_URI = "https://api.compropago.com/v1/";
     private static String API_SANDBOX_URI = "https://api.compropago.com/v1/";
@@ -25,6 +25,7 @@ public class Client {
 
         this.api = new Service(this);
     }
+
 
     public String getUser() {
         return this.privateKey;

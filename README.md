@@ -130,7 +130,7 @@ Para poder hacer uso de los servicos de ComproPago, solo debes llamar a los mét
  * @param [double] order_price       Monto total de la orden
  * @param [String] customer_name     Nombre completo del cliente
  * @param [String] customer_email    Correo electrónico del cliente
- * @param [String] payment_type      (default = SEVEN_ELEVEN) Valor del atributo internal_name" de un objeto "Provider"
+ * @param [String] payment_type      (default = OXXO) Valor del atributo internal_name" de un objeto "Provider"
  * @param [String] currency          (default = MXN) tipo de moneda del campo order_price (MXN, USD, GBP, EUR)
  * @param [String] expiration_time   (default = null) fecha de expiración de la orden en formato Epoch
  */
@@ -314,6 +314,26 @@ Webhook updated_webhook = client.api.updateWebhook(webhook.id, "http://sitio.com
  * @throws Exception
  */
 public Webhook updateWebhook(String webhookId, String url);
+```
+
+##### Desactivar un Webhook
+
+Para desactivar un webhook y evitar que reciba notificaciones sin eliminarlo debe de ocupar la función **deactive_webhook** 
+que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Webhook**
+
+```java
+Webhook deactive = client.api.deactiveWebhook(webhook.id);
+```
+
+###### Prototipo del metodo deactiveWebhook()
+
+```java
+/**
+ * @param [String] webhookId
+ * @return [Wenhook]
+ * @throws Exception
+ */
+public Webhook deactiveWebhook(String webhookId);
 ```
 
 ##### Eliminar un Webhook
