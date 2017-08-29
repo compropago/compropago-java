@@ -6,7 +6,7 @@ La librería de `ComproPago Java SDK` te permite interactuar con el API de Compr
 También cuenta con los métodos necesarios para facilitar el desarrollo por medio de los servicios
 más utilizados (SDK).
 
-Con ComproPago puedes recibir pagos en OXXO, 7Eleven y más tiendas en todo México.
+Con ComproPago puedes recibir pagos en 7Eleven, Extra y más tiendas en todo México.
 
 [Registrarse en ComproPago](https://compropago.com)
 
@@ -141,7 +141,7 @@ order_info.put("order_name", "M4 SDK Java");
 order_info.put("order_price", "123.45");
 order_info.put("customer_name", "Eduardo Aguilar");
 order_info.put("customer_email", "eduardo.aguilar@compropago.com");
-order_info.put("payment_type", "OXXO");
+order_info.put("payment_type", "SEVEN_ELEVEN");
 order_info.put("currency", "USD");
 order_info.put("expiration_time", "1484799158");
 
@@ -314,6 +314,26 @@ Webhook updated_webhook = client.api.updateWebhook(webhook.id, "http://sitio.com
  * @throws Exception
  */
 public Webhook updateWebhook(String webhookId, String url);
+```
+
+##### Desactivar un Webhook
+
+Para desactivar un webhook y evitar que reciba notificaciones sin eliminarlo debe de ocupar la función **deactive_webhook** 
+que se encuentra alojado en el atributo **api** del objeto **Client** y el cual regresa una instancia de tipo **Webhook**
+
+```java
+Webhook deactive = client.api.deactiveWebhook(webhook.id);
+```
+
+###### Prototipo del metodo deactiveWebhook()
+
+```java
+/**
+ * @param [String] webhookId
+ * @return [Wenhook]
+ * @throws Exception
+ */
+public Webhook deactiveWebhook(String webhookId);
 ```
 
 ##### Eliminar un Webhook

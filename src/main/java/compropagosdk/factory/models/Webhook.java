@@ -7,5 +7,6 @@ public class Webhook {
     public String url;
     public String mode;
     public String status;
+    public String type;
 
 }

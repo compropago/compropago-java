@@ -4,24 +4,22 @@ package compropagosdk.factory.models;
 public class CpOrderInfo {
 
     public String id;
+    public String short_id;
     public String type;
     public String object;
-    public int created;
-    public boolean paid;
-    public String amount;
     public boolean livemode;
+    public long created_at;
+    public long accepted_at;
+    public long expires_at;
+    public boolean paid;
+    public double amount;
     public String currency;
     public boolean refunded;
-    public String fee;
+    public double fee;
     public FeeDetails fee_details;
     public OrderInfo order_info;
     public Customer customer;
-    public boolean captured;
-    public String failure_message;
-    public String failure_code;
-    public double amount_refunded;
-    public String description;
-    public String dispute;
+    public String api_version;
 
     public CpOrderInfo() {
         fee_details = new FeeDetails();
